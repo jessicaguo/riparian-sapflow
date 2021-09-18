@@ -1,0 +1,71 @@
+# Hierarchical model, individuals nested within species
+# with gref only as a linear combo of CDE
+# log(D) is not centered
+
+model{
+  #likelihood
+  for(i in 1:N){#number of observations
+    Gc[i] ~ dnorm(mu[i], tau)#global tau
+    Gc.rep[i] ~ dnorm(mu[i], tau)
+    
+    #Oren model regression
+    mu[i] = gref[i] + sens[ind[i]]*D[i]
+    
+    #model parameters as linear combos
+    gref[i] = alpha[ind[i], 1] + alpha[ind[i], 2] * CDE[i]
+    
+    #Part of the calculation of the posterior predictive loss	
+    Sqdiff[i] <- pow(Gc.rep[i] - Gc[i],2)
+    
+    #Residuals
+    resid[i] <- Gc.rep[i] - Gc[i]
+  }
+  
+  
+  #individual-level parameters
+  for(j in 1:Nind){ # number of individuals
+    for(k in 1:2){ # number of regression parameters
+      alpha[j, k] ~ dnorm(mu.alpha[sp.ind[j], k], tau.alpha[sp.ind[j], k])
+      # beta[j, k] ~ dnorm(mu.beta[sp.ind[j], k], tau.beta[sp.ind[j], k])
+    }
+    sens[j] ~ dnorm(mu.sens[sp.ind[j]], tau.sens[sp.ind[j]])
+  }
+  
+  #root nodes
+  for(s in 1:Nsp){#number of species
+    for(k in 1:2){
+      #species-level means for alpha
+      mu.alpha[s, k] ~ dnorm(0, 0.0001)
+      # mu.beta[s, k] ~ dnorm(0, 0.0001)
+      
+      #species-level precisions for alpha
+      #small group size, so use a folded t distribution with 2 degrees of freedom
+      tau.eps.alpha[s, k] ~ dt(0, Talpha[s, k], 2)
+      sig.alpha[s, k] <- abs(tau.eps.alpha[s, k])
+      tau.alpha[s, k] <- pow(sig.alpha[s, k], -2)
+      
+      #parms for folded t; set as data Salpha
+      Talpha[s, k] <- pow(Salpha[s, k], -2)
+      
+    }
+    
+    #species-level means for sens
+    mu.sens[s] ~ dnorm(0, 0.0001)
+    
+    #species-level precisions for sens
+    #small group size, so use a folded t distribution with 2 degrees of freedom
+    tau.eps.sens[s] ~ dt(0, Tsens[s], 2)
+    sig.sens[s] <- abs(tau.eps.sens[s])
+    tau.sens[s] <- pow(sig.sens[s], -2)
+    
+    #parms for folded t; set as data Salpha
+    Tsens[s] <- pow(Ssens[s], -2)
+  }
+  
+  #global precision
+  tau ~ dgamma(0.01, 0.01)
+  sig <- pow(tau, -0.5)
+  
+  #Posterior predictive loss is the posterior mean of Dsum, must monitor Dsum
+  Dsum <- sum(Sqdiff[])
+}
