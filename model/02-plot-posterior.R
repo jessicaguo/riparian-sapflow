@@ -1,4 +1,7 @@
 # Summarize and plot posteriors
+library(coda)
+library(dplyr)
+library(ggplot2)
 
 # Load dataset
 load("clean-data/Gc_daily.Rdata")
@@ -11,7 +14,7 @@ sum_tab <- broom.mixed::tidyMCMC(jm_coda, conf.int = TRUE,
                                  conf.level = 0.95) %>% 
   rename(param = term, mean = estimate, sd = std.error, 
          pc2.5 = conf.low, pc97.5 = conf.high) %>% 
-  mutate(sig = if_else(pc2.5 * pc97.5 > 0, TRUE, FALSE))
+  mutate(sig = ifelse(pc2.5 * pc97.5 > 0, TRUE, FALSE))
 
 #make figures
 labs <- unique(d$species)
