@@ -173,7 +173,7 @@ fig_Gc_diurnal
 
 #make overall figure of Gc vs Dmax
 fig_Gc_D <- ggplot()+
-  geom_point(data = d, aes(x = Dmean_day, y = Gc, col = as.factor(ID)), alpha=0.1)+
+  geom_point(data = d, aes(x = Dmean_day, y = Gc, col = as.factor(ID)), alpha = 0.1)+
   scale_x_continuous(expression(paste(D[max], " (kPa)")))+
   scale_y_continuous(expression(paste(G[c], " (m", s^-1, ")")))+
   facet_wrap(~species, scales = "free_y")+
