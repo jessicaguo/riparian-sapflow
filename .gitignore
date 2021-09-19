@@ -1,3 +1,11 @@
 .Rproj.user/
 *.Rproj
 
+# folders to ignore, for now
+raw-data/
+clean-data/
+plots/
+model/coda/
+model/diag/
+model/inits/
+model/output/
