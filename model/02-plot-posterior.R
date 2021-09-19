@@ -17,7 +17,7 @@ sum_tab <- broom.mixed::tidyMCMC(jm_coda, conf.int = TRUE,
   mutate(sig = ifelse(pc2.5 * pc97.5 > 0, TRUE, FALSE))
 
 #make figures
-labs <- unique(d$species)
+labs <- levels(d$species)
 alpha.int <- sum_tab[grep("mu.alpha\\[\\d{1,2},1\\]", sum_tab$param, perl = TRUE),]
 alpha.int$param <- factor(alpha.int$param, levels = alpha.int$param)
 alpha.int$Site <- c(rep("Jordan", 3), 
