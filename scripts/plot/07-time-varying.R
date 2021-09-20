@@ -43,7 +43,7 @@ fig_hydry <- ggplot() +
   scale_y_continuous(bquote(italic(S))) +
   scale_x_date("Date", limits = range(as.Date(d$date)), 
                date_breaks = "1 month",
-               date_labels = "%m/%d") +
+               date_labels = "%b") +
   scale_color_canva(palette = "Surf and turf") +
   facet_wrap(~species, scale = "free_y") +
   theme_bw(base_size = 12) +
@@ -70,7 +70,7 @@ fig_gref <- ggplot() +
   scale_y_continuous(expression(paste(G[ref]))) +
   scale_x_date("Date", limits = range(as.Date(d$date)), 
                date_breaks = "1 month",
-               date_labels = "%m/%d") +
+               date_labels = "%b") +
   scale_color_canva(palette = "Surf and turf") +
   facet_wrap(~species, scale = "free_y") +
   theme_bw(base_size = 12) +
@@ -81,7 +81,7 @@ fig_gref <- ggplot() +
         legend.title = element_blank()) +
   guides(color = guide_legend(override.aes = list(linetype = 0)))
 
-jpeg(filename = "plots/FigS4_Gref_byspecies.jpg", width = 6, height = 4, 
+jpeg(filename = "plots/FigS5_Gref_byspecies.jpg", width = 6, height = 4, 
      units = "in", res = 600)
 print(fig_gref)
 dev.off()
