@@ -1,5 +1,8 @@
-# Plot panels of CDE and Dmax by site
+# Plot environment-related variables
+# Fig 2: panels of CDE and Dmax by site (double axis plot)
+# Fig S1: time-series of water potential by species
 # Select colors for sites
+
 library(dplyr)
 library(ggplot2)
 library(ggthemes)
@@ -26,6 +29,8 @@ daterange <- data.frame(do.call(rbind, tapply(d$date, d$site, FUN = range))) %>%
          en = as.Date(as.POSIXct(en, origin = "1970-01-01"))) %>%
   tibble::rownames_to_column(var = "Site")
 
+
+# Plot double axis of CDE and Dmax
 fig_env <- ggplot() +
   geom_rect(data = daterange, aes(xmin = st, xmax = en, 
                                   ymin = -Inf, ymax = Inf), alpha = 0.1) +
@@ -41,6 +46,7 @@ fig_env <- ggplot() +
   facet_wrap(~Site, ncol = 1) +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
         strip.background = element_blank(),
         axis.title.x=element_blank()) +
   guides(color = "none")
@@ -48,4 +54,48 @@ fig_env <- ggplot() +
 jpeg(filename = "plots/Fig2_CDE_Dmax.jpg", width = 3, height = 6, 
      units = "in", res = 600)
 print(fig_env)
+dev.off()
+
+
+# Plot WP by time and species
+
+# Load data
+load("clean-data/waterpotential/wp_sp_date.Rdata")
+
+# Find unique sites by species
+site_sp <- d %>%
+  group_by(species) %>%
+  summarize(Site = unique(site))
+
+wp_sp_date <- wp_sp_date %>%
+  left_join(site_sp)
+
+dodge <- position_dodge(width = 0.75)
+fig_wp <- ggplot(wp_sp_date, aes(x = Date)) +
+  geom_errorbar(aes(y = PD_mean, 
+                    ymin = PD_mean - PD_sd,
+                    ymax = PD_mean + PD_sd, color = Site), 
+                width = 0, position = dodge, alpha = 0.5) +
+  geom_point(aes(y = PD_mean, shape = "PD", color = Site), position = dodge) +
+  geom_errorbar(aes(y = MD_mean, 
+                    ymin = MD_mean - MD_sd,
+                    ymax = MD_mean + MD_sd, color = Site), 
+                width = 0, position = dodge, alpha = 0.5) +
+  geom_point(aes(y = MD_mean, shape = "MD", color = Site), position = dodge) +
+  scale_y_continuous(expression(paste(Psi, " (MPa)"))) +
+  scale_x_datetime("Date", date_breaks = "1 month", date_labels = "%b") +
+  scale_color_canva(palette = "Surf and turf") +
+  facet_wrap(~species) +
+  theme_bw(base_size = 12) +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
+        strip.background = element_blank(),
+        strip.text = element_text(face = "italic"),
+        legend.title = element_blank()) +
+  guides(shape = "none",
+         color = guide_legend(override.aes = list(linetype = 0)))
+
+jpeg(filename = "plots/FigS1_WP_ts.jpg", width = 6, height = 4, 
+     units = "in", res = 600)
+print(fig_wp)
 dev.off()
