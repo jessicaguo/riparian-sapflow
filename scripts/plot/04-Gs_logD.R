@@ -14,9 +14,9 @@ fig_Gc_logD <- ggplot() +
   scale_x_continuous(expression(paste("log(", D[max], ")")),
                      breaks = 0:2) +
   scale_y_continuous(expression(paste(G[c]))) +
-  scale_color_continuous_tableau(name = "Day of year", 
-                                 palette = "Green-Gold", 
-                                 trans = 'reverse') +
+  scale_color_gradientn(name = "Day of year", 
+                        colors = c("goldenrod", "forestgreen"), 
+                        trans = "reverse") +
   facet_wrap(~species, scales = "free_y") +
   theme_bw(base_size = 12) +
   theme(panel.grid.major = element_blank(),
@@ -40,7 +40,7 @@ fig_Gc_logD_inds_A <- d %>%
                      breaks = seq(0.5, 2, by = 0.5)) +
   scale_y_continuous(expression(paste(G[c]))) +
   scale_color_gradientn(name = "CDE", 
-                        colors = c("coral", "yellowgreen"), 
+                        colors = c("purple", "yellowgreen"), 
                         trans = "reverse") +
   facet_grid(rows = vars(species), 
              cols = vars(ID), 
@@ -61,7 +61,7 @@ fig_Gc_logD_inds_B <- d %>%
                      breaks = seq(0.5, 2, by = 0.5)) +
   scale_y_continuous(expression(paste(G[c]))) +
   scale_color_gradientn(name = "CDE", 
-                        colors = c("coral", "yellowgreen"), 
+                        colors = c("purple", "yellowgreen"), 
                         trans = "reverse") +
   facet_grid(rows = vars(species), 
              cols = vars(ID), 
@@ -73,7 +73,7 @@ fig_Gc_logD_inds_B <- d %>%
         strip.text = element_text(face = "italic"),
         legend.title = element_text(size = 10))
 
-jpeg(filename = "plots/FigS1_Gc_logD_ind.jpg", width = 8, height = 4, 
+jpeg(filename = "plots/FigS2_Gc_logD_ind.jpg", width = 8, height = 4, 
      units = "in", res = 600)
 plot_grid(fig_Gc_logD_inds_A, fig_Gc_logD_inds_B, labels="auto", ncol = 1)
 dev.off()
