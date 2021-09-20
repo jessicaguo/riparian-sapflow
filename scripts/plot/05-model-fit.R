@@ -60,7 +60,8 @@ pred$cov <- ifelse(pred$Gc/1000 <= pred$Gc.upper & pred$Gc/1000 >= pred$Gc.lower
 mean(pred$cov) # 0.948
 
 fig_fit <- ggplot(pred) +
-  geom_errorbar(aes(x = Gc/1000, ymin = Gc.lower, ymax = Gc.upper), col = "gray") +
+  geom_errorbar(aes(x = Gc/1000, ymin = Gc.lower, ymax = Gc.upper), col = "gray",
+                alpha = 0.5) +
   geom_point(aes(x = Gc/1000, y = Gc.pred, col = site)) +
   geom_abline(slope = 1, intercept = 0, col = "red") +
   geom_abline(slope = coef(summary(m1))[2,1], intercept = coef(summary(m1))[1,1], 
@@ -99,7 +100,8 @@ fitsp <- data.frame(species = unique(pred$species),
 
 fig_fit_sp <- ggplot() +
   geom_errorbar(data = pred, 
-                aes(x = Gc/1000, ymin = Gc.lower, ymax = Gc.upper), col = "gray") +
+                aes(x = Gc/1000, ymin = Gc.lower, ymax = Gc.upper), col = "gray",
+                alpha = 0.5) +
   geom_point(data = pred, 
              aes(x = Gc/1000, y = Gc.pred, col = site)) +
   geom_abline(slope = 1, intercept = 0, col = "red") +
