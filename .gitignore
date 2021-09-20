@@ -1,5 +1,6 @@
 .Rproj.user/
 *.Rproj
+.Rhistory
 
 # folders to ignore, for now
 raw-data/
@@ -9,3 +10,7 @@ model/coda/
 model/diag/
 model/inits/
 model/output/
+
+# manuscript folder, always ignore
+ms/
+*.docx
