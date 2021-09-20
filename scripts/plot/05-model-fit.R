@@ -80,7 +80,7 @@ fig_fit <- ggplot(pred) +
         legend.background = element_blank()) +
   coord_equal()
 
-jpeg(filename = "plots/FigS2_fit_all.jpg", width = 4, height = 4, 
+jpeg(filename = "plots/FigS3_fit_all.jpg", width = 4, height = 4, 
      units = "in", res = 600)
 print(fig_fit)
 dev.off()
@@ -123,7 +123,7 @@ fig_fit_sp <- ggplot() +
         aspect.ratio = 1,
         legend.title = element_blank())
 
-jpeg(filename = "plots/FigS3_fit_byspecies.jpg", width = 6, height = 6, 
+jpeg(filename = "plots/FigS4_fit_byspecies.jpg", width = 6, height = 6, 
      units = "in", res = 600)
 print(fig_fit_sp)
 dev.off()
