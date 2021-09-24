@@ -18,7 +18,7 @@ load("clean-data/env/CDE.Rdata")
 # Load site by site
 
 # Jordan
-jor <- read.csv("raw-data/Gc_daily/daily_Gc_jordan.csv", 
+jor <- read.csv("raw-data/Gc_daily/daytime_Gc_jordan.csv", 
               na.strings = "NaN") %>%
   select(-Dmean, -Dmax) %>%
   tidyr::pivot_longer(cols = -1:-2, names_to = "ID", 
@@ -52,7 +52,7 @@ ggplot(jor, aes(x = day))+
 
 
 # Reservoir
-res <- read.csv("raw-data/Gc_daily/daily_Gc_reservoir.csv", 
+res <- read.csv("raw-data/Gc_daily/daytime_Gc_reservoir.csv", 
                 na.strings = "NaN") %>%
   select(-Dmean, -Dmax) %>%
   tidyr::pivot_longer(cols = -1:-2, names_to = "ID", 
@@ -83,7 +83,7 @@ ggplot(res, aes(x = day))+
 
 
 # Todds
-tod <- read.csv("raw-data/Gc_daily/daily_Gc_todds.csv", 
+tod <- read.csv("raw-data/Gc_daily/daytime_Gc_todds.csv", 
                 na.strings = "NaN") %>%
   select(-Dmean, -Dmax) %>%
   tidyr::pivot_longer(cols = -1:-2, names_to = "ID", 
@@ -111,7 +111,7 @@ ggplot(tod, aes(x = day))+
   geom_line(aes(y=Dmax, col = "Dmax"))
 
 # Upper
-up <- read.csv("raw-data/Gc_daily/daily_Gc_upper_updated.csv", 
+up <- read.csv("raw-data/Gc_daily/daytime_Gc_upper_updated.csv", 
                 na.strings = "NaN") %>%
   select(-Dmean, -Dmax) %>%
   tidyr::pivot_longer(cols = -1:-2, names_to = "ID", 
