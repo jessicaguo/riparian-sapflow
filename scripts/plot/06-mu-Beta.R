@@ -110,7 +110,8 @@ fig_wp_muB <- ggplot() +
   geom_errorbarh(data = both,
                  aes(y = mu_beta, xmin = WP_mean - WP_se, xmax = WP_mean + WP_se, color = Species), 
                  height = 0, alpha = 0.5) +
-  geom_point(data = both, aes(x = WP_mean, y = mu_beta, color = Species)) +
+  geom_point(data = both, aes(x = WP_mean, y = mu_beta, color = Species), 
+             size = 2.5) +
   geom_abline(data = fit, aes(slope = slope, intercept = int), lty = 2) +
   geom_text(data = fit, aes(x = lat, y = lon, label = lab), hjust = 1, parse = TRUE) + # previously hjust = 0
   geom_text(data = fit, aes(x = lat, y = lon2, label = lab2), hjust = 1, parse = TRUE) +
@@ -122,13 +123,15 @@ fig_wp_muB <- ggplot() +
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         strip.background = element_blank(),
-        legend.position = c(0.11, 0.3),
+        strip.text = element_text(size = 12),
+        legend.position = c(0.11, 0.275),
         legend.text = element_text(size = 10, face = "italic"),
         legend.spacing.y = unit(0.5, 'cm'),
         legend.title = element_blank(),
         legend.background = element_rect(fill = "transparent"),
         legend.key.size = unit(0.5, "cm")) +
-  guides(color = guide_legend(override.aes = list(linetype = 0)))
+  guides(color = guide_legend(override.aes = list(linetype = 0, 
+                                                  size = 2)))
 
 jpeg(filename = "plots/Fig6_wp_muBeta.jpg", width = 8.5, height = 5, 
      units = "in", res = 600)
