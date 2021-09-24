@@ -22,7 +22,7 @@ Dmax <- read.csv("raw-data/env_site/Dmax_daily.csv") %>%
 str(Dmax)
 
 # Obtain ranges for data
-load("clean-data/Gc_daily.Rdata")
+load("clean-data/sapflow/Gc_daily.Rdata")
 daterange <- data.frame(do.call(rbind, tapply(d$date, d$site, FUN = range))) %>%
   rename(st = X1, en = X2) %>%
   mutate(st = as.Date(as.POSIXct(st, origin = "1970-01-01")),
@@ -43,7 +43,7 @@ fig_env <- ggplot() +
                date_breaks = "1 month",
                date_labels = "%b") +
   scale_color_canva(palette = "Surf and turf") +
-  facet_wrap(~Site, ncol = 1) +
+  facet_wrap(~Site, ncol = 2) +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
@@ -51,7 +51,7 @@ fig_env <- ggplot() +
         axis.title.x=element_blank()) +
   guides(color = "none")
 
-jpeg(filename = "plots/Fig2_CDE_Dmax.jpg", width = 3, height = 6, 
+jpeg(filename = "plots/Fig2_CDE_Dmax.jpg", width = 6, height = 4, 
      units = "in", res = 600)
 print(fig_env)
 dev.off()
