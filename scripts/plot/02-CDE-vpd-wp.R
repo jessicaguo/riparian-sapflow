@@ -83,19 +83,20 @@ fig_wp <- ggplot(wp_sp_date, aes(x = Date)) +
                 width = 0, position = dodge, alpha = 0.5) +
   geom_point(aes(y = MD_mean, shape = "MD", color = Site), position = dodge) +
   scale_y_continuous(expression(paste(Psi, " (MPa)"))) +
-  scale_x_datetime("Date", date_breaks = "1 month", date_labels = "%b") +
+  scale_x_datetime(date_breaks = "1 month", date_labels = "%b") +
   scale_color_canva(palette = "Surf and turf") +
-  facet_wrap(~species) +
+  facet_wrap(~species, scales = "free_y") +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
         strip.background = element_blank(),
         strip.text = element_text(face = "italic"),
+        axis.title.x = element_blank(),
         legend.title = element_blank()) +
   guides(shape = "none",
          color = guide_legend(override.aes = list(linetype = 0)))
 
-jpeg(filename = "plots/FigS1_WP_ts.jpg", width = 6, height = 4, 
+jpeg(filename = "plots/FigS1_WP_ts.jpg", width = 7, height = 4, 
      units = "in", res = 600)
 print(fig_wp)
 dev.off()

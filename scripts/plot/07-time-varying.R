@@ -41,7 +41,7 @@ fig_hydry <- ggplot() +
                 alpha = 0.3) +
   geom_point(data = hydry, aes(x = date, y = median, color = Site)) +
   scale_y_continuous(bquote(italic(S))) +
-  scale_x_date("Date", limits = range(as.Date(d$date)), 
+  scale_x_date(limits = range(as.Date(d$date)), 
                date_breaks = "1 month",
                date_labels = "%b") +
   scale_color_canva(palette = "Surf and turf") +
@@ -51,10 +51,11 @@ fig_hydry <- ggplot() +
         panel.grid.major = element_blank(),
         strip.background = element_blank(),
         strip.text = element_text(face = "italic"),
+        axis.title.x = element_blank(),
         legend.title = element_blank()) +
   guides(color = guide_legend(override.aes = list(linetype = 0)))
 
-jpeg(filename = "plots/Fig7_sens_byspecies.jpg", width = 6, height = 4, 
+jpeg(filename = "plots/Fig7_sens_byspecies.jpg", width = 7, height = 4, 
      units = "in", res = 600)
 print(fig_hydry)
 dev.off()
@@ -68,7 +69,7 @@ fig_gref <- ggplot() +
                 alpha = 0.3) +
   geom_point(data = Gref, aes(x = date, y = median, color = Site)) +
   scale_y_continuous(expression(paste(G[ref]))) +
-  scale_x_date("Date", limits = range(as.Date(d$date)), 
+  scale_x_date(limits = range(as.Date(d$date)), 
                date_breaks = "1 month",
                date_labels = "%b") +
   scale_color_canva(palette = "Surf and turf") +
@@ -78,10 +79,11 @@ fig_gref <- ggplot() +
         panel.grid.major = element_blank(),
         strip.background = element_blank(),
         strip.text = element_text(face = "italic"),
+        axis.title.x = element_blank(),
         legend.title = element_blank()) +
   guides(color = guide_legend(override.aes = list(linetype = 0)))
 
-jpeg(filename = "plots/FigS5_Gref_byspecies.jpg", width = 6, height = 4, 
+jpeg(filename = "plots/FigS5_Gref_byspecies.jpg", width = 7, height = 4, 
      units = "in", res = 600)
 print(fig_gref)
 dev.off()

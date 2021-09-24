@@ -25,7 +25,7 @@ fig_Js <- ggplot(Js_sum, aes(x = as.Date(date), col = site)) +
         panel.grid.major = element_blank(),
         strip.background = element_blank(),
         strip.text = element_text(face = "italic"),
-        axis.title.x=element_blank(),
+        axis.title.x = element_blank(),
         legend.title = element_blank()) +
   guides(color = guide_legend(override.aes = list(linetype = 0)))
 fig_Js
