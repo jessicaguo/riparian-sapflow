@@ -197,4 +197,4 @@ summary(m3)
 #perhaps Dmax has a slight edge
 
 #output the collated dataset
-save(d, file = "clean-data/Gc_daily.Rdata")
+save(d, file = "clean-data/sapflow/Gc_daily.Rdata")
