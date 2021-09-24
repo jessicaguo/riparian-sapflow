@@ -6,7 +6,7 @@ library(ggthemes)
 library(cowplot)
 
 # Load dataset
-load("clean-data/Gc_daily.Rdata")
+load("clean-data/sapflow/Gc_daily.Rdata")
 
 # First, show Oren relationship with day of year as color axis
 fig_Gc_logD <- ggplot() +

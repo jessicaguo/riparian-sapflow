@@ -6,7 +6,7 @@ library(ggplot2)
 library(ggthemes)
 
 # Load dataset
-load("clean-data/Gc_daily.Rdata")
+load("clean-data/sapflow/Gc_daily.Rdata")
 
 # Load calculated time-varying hydry and Gref
 load(file = "model/output/hydry.Rdata") 

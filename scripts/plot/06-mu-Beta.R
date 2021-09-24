@@ -8,7 +8,7 @@ library(ggthemes)
 library(forcats)
 
 # Load dataset
-load("clean-data/Gc_daily.Rdata")
+load("clean-data/sapflow/Gc_daily.Rdata")
 
 # Find unique sites by species
 site_sp <- d %>%
