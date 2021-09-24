@@ -38,7 +38,8 @@ fig_env <- ggplot() +
              size = 0.5) +
   geom_point(data = Dmax, aes(x = date, y = Dmax*64), size = 0.5) +
   scale_y_continuous(expression("CDE (kPa" %.% "d)"),
-                     sec.axis = sec_axis(~./64, name = "VPD (kPa)")) +
+                     sec.axis = sec_axis(~./64, 
+                                         name = expression(paste(D[max], " (kPa)")))) +
   scale_x_date(limits = c(as.Date("2004-06-01"), as.Date("2004-09-30")),
                date_breaks = "1 month",
                date_labels = "%b") +
