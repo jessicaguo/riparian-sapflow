@@ -9,7 +9,7 @@ library(ggplot2)
 library(cowplot)
 
 # Load dataset
-load("clean-data/Gc_daily.Rdata")
+load("clean-data/sapflow/Gc_daily.Rdata")
 
 # Load posterior
 load("model/coda/jm_coda.Rdata")

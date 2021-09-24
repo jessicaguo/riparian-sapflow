@@ -6,7 +6,7 @@ library(ggplot2)
 
 # Load data
 # Load dataset
-load("clean-data/Gc_daily.Rdata")
+load("clean-data/sapflow/Gc_daily.Rdata")
 str(d)
 
 # Make identifying tables

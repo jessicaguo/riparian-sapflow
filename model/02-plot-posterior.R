@@ -4,7 +4,7 @@ library(dplyr)
 library(ggplot2)
 
 # Load dataset
-load("clean-data/Gc_daily.Rdata")
+load("clean-data/sapflow/Gc_daily.Rdata")
 
 # Load posterior
 load(file = "model/coda/jm_coda.Rdata")
