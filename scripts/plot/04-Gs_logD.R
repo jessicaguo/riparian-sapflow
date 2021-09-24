@@ -13,7 +13,7 @@ fig_Gc_logD <- ggplot() +
   geom_point(data = d, aes(x = log(Dmax), y = Gc/1000, color = day), alpha = 0.2) +
   scale_x_continuous(expression(paste("log(", D[max], ")")),
                      breaks = 0:2) +
-  scale_y_continuous(expression(paste(G[c]))) +
+  scale_y_continuous(expression(paste(G[c], " (m ", s^-1, ")"))) +
   scale_color_gradientn(name = "Day of year", 
                         colors = c("goldenrod", "forestgreen"), 
                         trans = "reverse") +
@@ -25,7 +25,7 @@ fig_Gc_logD <- ggplot() +
         strip.text = element_text(face = "italic"),
         legend.title = element_text(size = 10))
 
-jpeg(filename = "plots/Fig4_Gc_logD.jpg", width = 6, height = 4, 
+jpeg(filename = "plots/Fig4_Gc_logD.jpg", width = 7, height = 4, 
      units = "in", res = 600)
 print(fig_Gc_logD)
 dev.off()
@@ -38,7 +38,7 @@ fig_Gc_logD_inds_A <- d %>%
   geom_point(aes(x = log(Dmax), y = Gc/1000, color = CDE)) +
   scale_x_continuous(expression(paste("log(", D[max], ")")),
                      breaks = seq(0.5, 2, by = 0.5)) +
-  scale_y_continuous(expression(paste(G[c]))) +
+  scale_y_continuous(expression(paste(G[c], " (m ", s^-1, ")"))) +
   scale_color_gradientn(name = "CDE", 
                         colors = c("purple", "yellowgreen"), 
                         trans = "reverse") +
@@ -59,7 +59,7 @@ fig_Gc_logD_inds_B <- d %>%
   geom_point(aes(x = log(Dmax), y = Gc/1000, color = CDE)) +
   scale_x_continuous(expression(paste("log(", D[max], ")")),
                      breaks = seq(0.5, 2, by = 0.5)) +
-  scale_y_continuous(expression(paste(G[c]))) +
+  scale_y_continuous(expression(paste(G[c], " (m ", s^-1, ")"))) +
   scale_color_gradientn(name = "CDE", 
                         colors = c("purple", "yellowgreen"), 
                         trans = "reverse") +

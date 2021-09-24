@@ -4,7 +4,8 @@
 library(ggplot2)
 library(ggthemes)
 
-# Read in Js data
+# Read in data
+load("clean-data/sapflow/Gc_daily.Rdata") # d
 load("clean-data/sapflow/Js_daily_sum.Rdata") # Jm_sum
 
 fig_Js <- ggplot(Js_sum, aes(x = as.Date(date), col = site)) + 
@@ -14,7 +15,7 @@ fig_Js <- ggplot(Js_sum, aes(x = as.Date(date), col = site)) +
                 width = 0) +
   geom_point(aes(y = Js_mean)) +
   facet_wrap(~species, scales = "free_y") +
-  scale_y_continuous(expression(paste(J[s]," (", g, m^2, s^-1, ")"))) +
+  scale_y_continuous(expression(paste(J[s]," (g ", m^-2, " ", s^-1, ")"))) +
   scale_x_date(limits = range(as.Date(d$date)), 
                date_breaks = "1 month",
                date_labels = "%b") +
@@ -28,7 +29,6 @@ fig_Js <- ggplot(Js_sum, aes(x = as.Date(date), col = site)) +
         axis.title.x = element_blank(),
         legend.title = element_blank()) +
   guides(color = guide_legend(override.aes = list(linetype = 0)))
-fig_Js
 
 jpeg(filename = "plots/Fig3_Js.jpg", width = 7, height = 4, 
      units = "in", res = 600)

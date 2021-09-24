@@ -68,7 +68,7 @@ fig_gref <- ggplot() +
                                   ymin = pc2.5, ymax = pc97.5, color = Site), 
                 alpha = 0.3) +
   geom_point(data = Gref, aes(x = date, y = median, color = Site)) +
-  scale_y_continuous(expression(paste(G[ref]))) +
+  scale_y_continuous(expression(paste(G[ref], " (m ", s^-1, ")"))) +
   scale_x_date(limits = range(as.Date(d$date)), 
                date_breaks = "1 month",
                date_labels = "%b") +
