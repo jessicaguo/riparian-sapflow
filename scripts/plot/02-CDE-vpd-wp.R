@@ -71,6 +71,13 @@ site_sp <- d %>%
 wp_sp_date <- wp_sp_date %>%
   left_join(site_sp)
 
+
+# Find unique dates by site
+wp_sp_date %>%
+  group_by(Site) %>%
+  summarize(date = unique(Date))
+
+
 dodge <- position_dodge(width = 0.75)
 fig_wp <- ggplot(wp_sp_date, aes(x = Date)) +
   geom_errorbar(aes(y = PD_mean, 
