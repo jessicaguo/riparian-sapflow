@@ -8,6 +8,13 @@ library(ggthemes)
 load("clean-data/sapflow/Gc_daily.Rdata") # d
 load("clean-data/sapflow/Js_daily_sum.Rdata") # Jm_sum
 
+# Summarize
+Js_sum %>%
+  group_by(species) %>%
+  summarize(min_Js = min(Js_mean),
+            max_Js = max(Js_mean),
+            mean_Js = mean(Js_mean))
+
 fig_Js <- ggplot(Js_sum, aes(x = as.Date(date), col = site)) + 
   geom_errorbar(aes(ymin = Js_mean - Js_sd, 
                     ymax = Js_mean + Js_sd),
