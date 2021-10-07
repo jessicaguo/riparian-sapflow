@@ -36,7 +36,11 @@ fig_mub <- ggplot(alpha_slope) +
   geom_pointrange(aes(x = fct_rev(species), y = mean, ymin = pc2.5, 
                       ymax = pc97.5, color = Site)) +
   scale_y_continuous(expression(paste(mu[beta]))) +
-  scale_color_canva(palette = "Surf and turf") +
+  scale_color_canva(palette = "Surf and turf",
+                    labels = c("Jordan", 
+                               "Reservoir", 
+                               "Parley's",
+                               "Upper")) +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),

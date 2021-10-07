@@ -44,7 +44,11 @@ fig_hydry <- ggplot() +
   scale_x_date(limits = range(as.Date(d$date)), 
                date_breaks = "1 month",
                date_labels = "%b") +
-  scale_color_canva(palette = "Surf and turf") +
+  scale_color_canva(palette = "Surf and turf",
+                    labels = c("Jordan", 
+                               "Reservoir", 
+                               "Parley's",
+                               "Upper")) +
   facet_wrap(~species, scale = "free_y") +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
@@ -72,7 +76,11 @@ fig_gref <- ggplot() +
   scale_x_date(limits = range(as.Date(d$date)), 
                date_breaks = "1 month",
                date_labels = "%b") +
-  scale_color_canva(palette = "Surf and turf") +
+  scale_color_canva(palette = "Surf and turf",
+                    labels = c("Jordan", 
+                               "Reservoir", 
+                               "Parley's",
+                               "Upper")) +
   facet_wrap(~species, scale = "free_y") +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),

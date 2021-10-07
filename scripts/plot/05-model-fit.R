@@ -71,7 +71,11 @@ fig_fit <- ggplot(pred) +
            parse = TRUE) +
   scale_x_continuous(expression(paste("Observed ", G[c]))) +
   scale_y_continuous(expression(paste("Predicted ", G[c]))) +
-  scale_color_canva(palette = "Surf and turf") +
+  scale_color_canva(palette = "Surf and turf",
+                    labels = c("Jordan", 
+                               "Reservoir", 
+                               "Parley's",
+                               "Upper")) +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
@@ -113,7 +117,11 @@ fig_fit_sp <- ggplot() +
             size = 4) +
   scale_x_continuous(expression(paste("Observed ", G[c]))) +
   scale_y_continuous(expression(paste("Predicted ", G[c]))) +
-  scale_color_canva(palette = "Surf and turf") +
+  scale_color_canva(palette = "Surf and turf",
+                    labels = c("Jordan", 
+                               "Reservoir", 
+                               "Parley's",
+                               "Upper")) +
   facet_wrap(~species, scales = "free") +
   theme_bw(base_size = 12) +
   theme(panel.grid.major = element_blank(),

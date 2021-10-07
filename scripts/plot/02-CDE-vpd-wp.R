@@ -29,6 +29,13 @@ daterange <- data.frame(do.call(rbind, tapply(d$date, d$site, FUN = range))) %>%
          en = as.Date(as.POSIXct(en, origin = "1970-01-01"))) %>%
   tibble::rownames_to_column(var = "Site")
 
+# Overwrite site names
+site_names <- c(
+  'Jordan'="Jordan",
+  'Reservoir'="Reservoir",
+  'Todds'="Parley's",
+  'Upper'="Upper"
+)
 
 # Plot double axis of CDE and Dmax
 fig_env <- ggplot() +
@@ -44,7 +51,7 @@ fig_env <- ggplot() +
                date_breaks = "1 month",
                date_labels = "%b") +
   scale_color_canva(palette = "Surf and turf") +
-  facet_wrap(~Site, ncol = 2) +
+  facet_wrap(~Site, ncol = 2, labeller = as_labeller(site_names)) +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
@@ -92,7 +99,11 @@ fig_wp <- ggplot(wp_sp_date, aes(x = Date)) +
   geom_point(aes(y = MD_mean, shape = "MD", color = Site), position = dodge) +
   scale_y_continuous(expression(paste(Psi, " (MPa)"))) +
   scale_x_datetime(date_breaks = "1 month", date_labels = "%b") +
-  scale_color_canva(palette = "Surf and turf") +
+  scale_color_canva(palette = "Surf and turf",
+                    labels = c("Jordan", 
+                               "Reservoir", 
+                               "Parley's",
+                               "Upper")) +
   facet_wrap(~species, scales = "free_y") +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
