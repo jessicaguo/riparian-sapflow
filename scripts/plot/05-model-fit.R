@@ -133,7 +133,9 @@ fig_fit_sp <- ggplot() +
         strip.text = element_text(face = "italic"),
         aspect.ratio = 1,
         legend.title = element_blank()) +
-  guides(shape = "none")
+  guides(color = guide_legend(override.aes = list(linetype = 0,
+                                                  shape = 17)),
+         shape = "none")
 
 jpeg(filename = "plots/FigS4_fit_byspecies.jpg", width = 6, height = 6, 
      units = "in", res = 600)
