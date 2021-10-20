@@ -48,7 +48,9 @@ sum_rep <- broom.mixed::tidyMCMC(jm_rep, conf.int = TRUE,
 pred <- data.table(d2, 
                    Gc.pred = sum_rep$mean,
                    Gc.lower = sum_rep$pc2.5,
-                   Gc.upper = sum_rep$pc97.5)
+                   Gc.upper = sum_rep$pc97.5) %>%
+  mutate(anatomy = ifelse(species %in% c("T. ramosissima", "E. angustifolia"),
+                          "ring", "diffuse"))
 
 #R2
 m1 <- lm(Gc.pred~I(Gc/1000), data = pred)
@@ -107,7 +109,7 @@ fig_fit_sp <- ggplot() +
                 aes(x = Gc/1000, ymin = Gc.lower, ymax = Gc.upper), col = "gray",
                 alpha = 0.5) +
   geom_point(data = pred, 
-             aes(x = Gc/1000, y = Gc.pred, col = site)) +
+             aes(x = Gc/1000, y = Gc.pred, col = site, shape = anatomy)) +
   geom_abline(slope = 1, intercept = 0, col = "red") +
   geom_abline(data = fitsp, 
               aes(slope = slope, intercept = int),
@@ -122,6 +124,7 @@ fig_fit_sp <- ggplot() +
                                "Reservoir", 
                                "Parley's",
                                "Upper")) +
+  scale_shape_manual(values = c(17, 19)) +
   facet_wrap(~species, scales = "free") +
   theme_bw(base_size = 12) +
   theme(panel.grid.major = element_blank(),
@@ -129,7 +132,8 @@ fig_fit_sp <- ggplot() +
         strip.background = element_blank(),
         strip.text = element_text(face = "italic"),
         aspect.ratio = 1,
-        legend.title = element_blank())
+        legend.title = element_blank()) +
+  guides(shape = "none")
 
 jpeg(filename = "plots/FigS4_fit_byspecies.jpg", width = 6, height = 6, 
      units = "in", res = 600)
