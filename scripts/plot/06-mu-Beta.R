@@ -1,5 +1,6 @@
 # Plot mu Beta, or species-level CDE effect on Gref
 # By species, and in conjunction with mean minimum water potentials
+# Add shape to distinguish between wood anatomy types
 
 library(coda)
 library(dplyr)
@@ -29,18 +30,21 @@ sum_tab <- broom.mixed::tidyMCMC(jm_coda, conf.int = TRUE,
 # Figure of mu Beta only
 alpha_slope <- sum_tab[grep("mu.alpha\\[\\d{1,2},2\\]", sum_tab$param, perl = TRUE),] %>%
   mutate(Site = site_sp$Site,
-         species = site_sp$species)
+         species = site_sp$species,
+         anatomy = ifelse(species %in% c("T. ramosissima", "E. angustifolia"),
+                          "ring", "diffuse")) 
 
 fig_mub <- ggplot(alpha_slope) +
   geom_hline(yintercept = 0, color = "gray") +
   geom_pointrange(aes(x = fct_rev(species), y = mean, ymin = pc2.5, 
-                      ymax = pc97.5, color = Site)) +
+                      ymax = pc97.5, color = Site, shape = anatomy)) +
   scale_y_continuous(expression(paste(mu[beta]))) +
   scale_color_canva(palette = "Surf and turf",
                     labels = c("Jordan", 
                                "Reservoir", 
                                "Parley's",
                                "Upper")) +
+  scale_shape_manual(values = c(17, 19)) +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
@@ -49,7 +53,9 @@ fig_mub <- ggplot(alpha_slope) +
         legend.position = c(0.8, 0.2),
         legend.title = element_blank(),
         legend.background = element_blank()) +
-  coord_flip()
+  coord_flip() +
+  guides(shape = "none",
+         color = guide_legend(override.aes = list(shape = 17)))
 
 jpeg(filename = "plots/Fig5_muB_bysp.jpg", width = 4, height = 4, 
      units = "in", res = 600)
@@ -79,7 +85,9 @@ both <- wp_sp %>%
          Species = species) %>%
   mutate(Type = case_when(Type == "PD" ~ "Predawn",
                           Type == "MD" ~ "Midday"),
-         Type = factor(Type, levels = c("Predawn", "Midday")))
+         Type = factor(Type, levels = c("Predawn", "Midday")),
+         anatomy = ifelse(Species %in% c("T. ramosissima", "E. angustifolia"),
+                          "ring", "diffuse"))
 
 # Calculate linear regression by PD or MD
 type <- c("Predawn", "Midday")
@@ -114,7 +122,8 @@ fig_wp_muB <- ggplot() +
   geom_errorbarh(data = both,
                  aes(y = mu_beta, xmin = WP_mean - WP_se, xmax = WP_mean + WP_se, color = Species), 
                  height = 0, alpha = 0.5) +
-  geom_point(data = both, aes(x = WP_mean, y = mu_beta, color = Species), 
+  geom_point(data = both, aes(x = WP_mean, y = mu_beta, 
+                              color = Species, shape = anatomy), 
              size = 2.5) +
   geom_abline(data = fit, aes(slope = slope, intercept = int), lty = 2) +
   geom_text(data = fit, aes(x = lat, y = lon, label = lab), hjust = 1, parse = TRUE) + # previously hjust = 0
@@ -122,6 +131,7 @@ fig_wp_muB <- ggplot() +
   scale_y_continuous(expression(paste(mu[Beta]))) +
   scale_x_continuous(expression(paste(Psi[min], " (MPa)"))) +
   scale_color_manual(values = calc_pal()(12)[c(1:8, 12)]) +
+  scale_shape_manual(values = c(17, 19)) +
   facet_wrap(~Type, scales = "free_x") +
   theme_bw(base_size = 12) +
   theme(panel.grid.major = element_blank(),
@@ -135,7 +145,11 @@ fig_wp_muB <- ggplot() +
         legend.background = element_rect(fill = "transparent"),
         legend.key.size = unit(0.5, "cm")) +
   guides(color = guide_legend(override.aes = list(linetype = 0, 
-                                                  size = 2)))
+                                                  size = 2,
+                                                  shape = c(17, 19, 19,
+                                                            17, 17, 17, 
+                                                            17, 17, 17))),
+         shape = "none")
 
 jpeg(filename = "plots/Fig6_wp_muBeta.jpg", width = 8.5, height = 5, 
      units = "in", res = 600)
