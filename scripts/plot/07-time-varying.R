@@ -11,10 +11,14 @@ load("clean-data/sapflow/Gc_daily.Rdata")
 # Load calculated time-varying hydry and Gref
 load(file = "model/output/hydry.Rdata") 
 hydry <- hydry %>%
-  rename(Site = site)
+  rename(Site = site) %>%
+  mutate(anatomy = ifelse(species %in% c("T. ramosissima", "E. angustifolia"),
+                          "ring", "diffuse"))
 load(file = "model/output/Gref.Rdata")
 Gref <- Gref %>%
-  rename(Site = site)
+  rename(Site = site) %>%
+  mutate(anatomy = ifelse(species %in% c("T. ramosissima", "E. angustifolia"),
+                          "ring", "diffuse"))
 
 # Obtain range of dates monitored at each site
 daterange <- data.frame(do.call(rbind, tapply(d$date, d$site, FUN = range)))
@@ -37,9 +41,11 @@ fig_hydry <- ggplot() +
                            ymin = -Inf, ymax = Inf), alpha = 0.1) +
   geom_hline(yintercept = 0.6,lty = 2, lwd = 0.55) +
   geom_errorbar(data = hydry, aes(x = date,
-                                  ymin = pc2.5, ymax = pc97.5, color = Site), 
+                                  ymin = pc2.5, ymax = pc97.5, 
+                                  color = Site), 
                 alpha = 0.3) +
-  geom_point(data = hydry, aes(x = date, y = median, color = Site)) +
+  geom_point(data = hydry, aes(x = date, y = median, 
+                               color = Site, shape = anatomy)) +
   scale_y_continuous(bquote(italic(S))) +
   scale_x_date(limits = range(as.Date(d$date)), 
                date_breaks = "1 month",
@@ -49,6 +55,7 @@ fig_hydry <- ggplot() +
                                "Reservoir", 
                                "Parley's",
                                "Upper")) +
+  scale_shape_manual(values = c(17, 19)) +
   facet_wrap(~species, scale = "free_y") +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
@@ -57,7 +64,9 @@ fig_hydry <- ggplot() +
         strip.text = element_text(face = "italic"),
         axis.title.x = element_blank(),
         legend.title = element_blank()) +
-  guides(color = guide_legend(override.aes = list(linetype = 0)))
+  guides(color = guide_legend(override.aes = list(linetype = 0,
+                                                  shape = 17)),
+         shape = "none")
 
 jpeg(filename = "plots/Fig7_sens_byspecies.jpg", width = 7, height = 4, 
      units = "in", res = 600)
@@ -69,9 +78,11 @@ fig_gref <- ggplot() +
   geom_rect(data = dr, aes(xmin = st, xmax = en, 
                            ymin = -Inf, ymax = Inf), alpha = 0.1) +
   geom_errorbar(data = Gref, aes(x = date,
-                                  ymin = pc2.5, ymax = pc97.5, color = Site), 
+                                 ymin = pc2.5, ymax = pc97.5, 
+                                 color = Site), 
                 alpha = 0.3) +
-  geom_point(data = Gref, aes(x = date, y = median, color = Site)) +
+  geom_point(data = Gref, aes(x = date, y = median, 
+                              color = Site, shape = anatomy)) +
   scale_y_continuous(expression(paste(G[ref], " (m ", s^-1, ")"))) +
   scale_x_date(limits = range(as.Date(d$date)), 
                date_breaks = "1 month",
@@ -81,6 +92,7 @@ fig_gref <- ggplot() +
                                "Reservoir", 
                                "Parley's",
                                "Upper")) +
+  scale_shape_manual(values = c(17, 19)) +
   facet_wrap(~species, scale = "free_y") +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
@@ -89,7 +101,9 @@ fig_gref <- ggplot() +
         strip.text = element_text(face = "italic"),
         axis.title.x = element_blank(),
         legend.title = element_blank()) +
-  guides(color = guide_legend(override.aes = list(linetype = 0)))
+  guides(color = guide_legend(override.aes = list(linetype = 0,
+                                                  shape = 17)),
+         shape = "none")
 
 jpeg(filename = "plots/FigS5_Gref_byspecies.jpg", width = 7, height = 4, 
      units = "in", res = 600)

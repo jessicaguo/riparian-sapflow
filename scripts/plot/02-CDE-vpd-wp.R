@@ -76,7 +76,9 @@ site_sp <- d %>%
   summarize(Site = unique(site))
 
 wp_sp_date <- wp_sp_date %>%
-  left_join(site_sp)
+  left_join(site_sp) %>%
+  mutate(anatomy = ifelse(species %in% c("T. ramosissima", "E. angustifolia"),
+                          "ring", "diffuse"))
 
 
 # Find unique dates by site
@@ -91,12 +93,18 @@ fig_wp <- ggplot(wp_sp_date, aes(x = Date)) +
                     ymin = PD_mean - PD_sd,
                     ymax = PD_mean + PD_sd, color = Site), 
                 width = 0, position = dodge, alpha = 0.5) +
-  geom_point(aes(y = PD_mean, shape = "PD", color = Site), position = dodge) +
+  geom_point(aes(y = PD_mean, shape = anatomy, color = Site), 
+             position = dodge,
+             alpha = 0.4,
+             size = 1.25) +
   geom_errorbar(aes(y = MD_mean, 
                     ymin = MD_mean - MD_sd,
                     ymax = MD_mean + MD_sd, color = Site), 
                 width = 0, position = dodge, alpha = 0.5) +
-  geom_point(aes(y = MD_mean, shape = "MD", color = Site), position = dodge) +
+  geom_point(aes(y = MD_mean, shape = anatomy, color = Site), 
+             position = dodge,
+             alpha = 1.5,
+             size = 1.25) +
   scale_y_continuous(expression(paste(Psi, " (MPa)"))) +
   scale_x_datetime(date_breaks = "1 month", date_labels = "%b") +
   scale_color_canva(palette = "Surf and turf",
@@ -104,6 +112,7 @@ fig_wp <- ggplot(wp_sp_date, aes(x = Date)) +
                                "Reservoir", 
                                "Parley's",
                                "Upper")) +
+  scale_shape_manual(values = c(17, 19)) +
   facet_wrap(~species, scales = "free_y") +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
@@ -113,7 +122,8 @@ fig_wp <- ggplot(wp_sp_date, aes(x = Date)) +
         axis.title.x = element_blank(),
         legend.title = element_blank()) +
   guides(shape = "none",
-         color = guide_legend(override.aes = list(linetype = 0)))
+         color = guide_legend(override.aes = list(linetype = 0,
+                                                  shape = 17)))
 
 jpeg(filename = "plots/FigS1_WP_ts.jpg", width = 7, height = 4, 
      units = "in", res = 600)
