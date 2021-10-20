@@ -55,7 +55,8 @@ fig_mub <- ggplot(alpha_slope) +
         legend.background = element_blank()) +
   coord_flip() +
   guides(shape = "none",
-         color = guide_legend(override.aes = list(shape = 17)))
+         color = guide_legend(override.aes = list(linetype = 0,
+                                                  shape = 17)))
 
 jpeg(filename = "plots/Fig5_muB_bysp.jpg", width = 4, height = 4, 
      units = "in", res = 600)
