@@ -113,7 +113,7 @@ fig_wp <- ggplot(wp_sp_date, aes(x = Date)) +
                                "Parley's",
                                "Upper")) +
   scale_shape_manual(values = c(17, 19)) +
-  facet_wrap(~species, scales = "free_y") +
+  facet_wrap(~species) +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
