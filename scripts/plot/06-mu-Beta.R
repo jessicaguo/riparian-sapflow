@@ -117,34 +117,33 @@ fit$lab <- paste0("italic(R^2) == ", fit$R2)
 fit$lab2 <- paste0("italic(p) == ", fit$p)
 
 fig_wp_muB <- ggplot() +
-  geom_errorbar(data = both, 
+  geom_errorbar(data = filter(both, Type == 'Midday'), 
                 aes(x = WP_mean, ymin = pc2.5, ymax = pc97.5, color = Species), 
                 width = 0, alpha = 0.5) +
-  geom_errorbarh(data = both,
+  geom_errorbarh(data = filter(both, Type == 'Midday'),
                  aes(y = mu_beta, xmin = WP_mean - WP_se, xmax = WP_mean + WP_se, color = Species), 
                  height = 0, alpha = 0.5) +
-  geom_point(data = both, aes(x = WP_mean, y = mu_beta, 
+  geom_point(data = filter(both, Type == 'Midday'), aes(x = WP_mean, y = mu_beta, 
                               color = Species, shape = anatomy), 
              size = 2.5) +
-  geom_abline(data = fit, aes(slope = slope, intercept = int), lty = 2) +
-  geom_text(data = fit, aes(x = lat, y = lon, label = lab), hjust = 1, parse = TRUE) + # previously hjust = 0
-  geom_text(data = fit, aes(x = lat, y = lon2, label = lab2), hjust = 1, parse = TRUE) +
+  geom_abline(data = filter(fit, Type == 'Midday'), aes(slope = slope, intercept = int), lty = 2) +
+  geom_text(data = filter(fit, Type == 'Midday'), aes(x = lat, y = lon, label = lab), hjust = 1, parse = TRUE) + # previously hjust = 0
+  geom_text(data = filter(fit, Type == 'Midday'), aes(x = lat, y = lon2, label = lab2), hjust = 1, parse = TRUE) +
   scale_y_continuous(expression(paste(mu[Beta]))) +
-  scale_x_continuous(expression(paste(Psi[min], " (MPa)"))) +
+  scale_x_continuous(expression(paste(Psi[paste(MD, ",",  min)], " (MPa)"))) +
   scale_color_manual(values = calc_pal()(12)[c(1:8, 12)]) +
   scale_shape_manual(values = c(17, 19)) +
-  facet_wrap(~Type, scales = "free_x") +
   theme_bw(base_size = 12) +
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         strip.background = element_blank(),
         strip.text = element_text(size = 12),
-        legend.position = c(0.11, 0.275),
-        legend.text = element_text(size = 10, face = "italic"),
+        legend.position = c(0.21, 0.285),
+        legend.text = element_text(size = 8, face = "italic"),
         legend.spacing.y = unit(0.5, 'cm'),
         legend.title = element_blank(),
         legend.background = element_rect(fill = "transparent"),
-        legend.key.size = unit(0.5, "cm")) +
+        legend.key.size = unit(0.4, "cm")) +
   guides(color = guide_legend(override.aes = list(linetype = 0, 
                                                   size = 2,
                                                   shape = c(17, 19, 19,
@@ -152,7 +151,7 @@ fig_wp_muB <- ggplot() +
                                                             17, 17, 17))),
          shape = "none")
 
-jpeg(filename = "plots/Fig6_wp_muBeta.jpg", width = 8.5, height = 5, 
+jpeg(filename = "plots/Fig6_wp_muBeta.jpg", width = 4, height = 4, 
      units = "in", res = 600)
 print(fig_wp_muB)
 dev.off()
