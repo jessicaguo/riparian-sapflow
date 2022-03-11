@@ -96,7 +96,9 @@ fit <- data.frame(Type = character(2),
                   R2 = numeric(2),
                   p = numeric(2),
                   slope = numeric(2),
-                  int = numeric(2))
+                  int = numeric(2),
+                  R = numeric(2),
+                  P = numeric(2))
 for(i in 1:2) {
   sub <- subset(both, Type == type[i])
   m <- summary(lm(mu_beta ~ WP_mean, data = sub))
@@ -106,6 +108,8 @@ for(i in 1:2) {
   fit$p[i] <- round(1 - pf(fvec[1], fvec[2], fvec[3]), 3)
   fit$slope[i]<- m$coefficients[2,1]
   fit$int[i]<- m$coefficients[1,1]
+  fit$R[i] <- round(cor(sub$mu_beta, sub$WP_mean), 3)
+  fit$P[i] <- round(cor.test(sub$mu_beta, sub$WP_mean)$p.value, 3)
 }
 
 # Add characteristics for plotting two kinds of labels
@@ -113,8 +117,8 @@ fit$lat <- tapply(both$WP_mean, both$Type, max)
 fit$lon <- tapply(both$pc97.5, both$Type, max)
 fit$lon2 <- tapply(both$pc97.5, both$Type, max) - 0.005
 fit$Type <- factor(fit$Type, levels = c("Predawn", "Midday"))
-fit$lab <- paste0("italic(R^2) == ", fit$R2)
-fit$lab2 <- paste0("italic(p) == ", fit$p)
+fit$lab <- paste0("italic(R) == ", fit$R)
+fit$lab2 <- paste0("italic(p) == ", fit$P)
 
 fig_wp_muB <- ggplot() +
   geom_errorbar(data = filter(both, Type == 'Midday'), 
