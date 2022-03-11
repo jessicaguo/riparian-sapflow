@@ -7,6 +7,7 @@ library(ggthemes)
 # Read in data
 load("clean-data/sapflow/Gc_daily.Rdata") # d
 load("clean-data/sapflow/Js_daily_sum.Rdata") # Js_sum
+load("clean-data/waterpotential/wp_sp_date.Rdata") # wp_sp_date
 
 # Summarize
 Js_sum %>%
@@ -20,12 +21,33 @@ Js_sum <- Js_sum %>%
   mutate(anatomy = ifelse(species %in% c("T. ramosissima", "E. angustifolia"),
                           "ring", "diffuse"))
 
-fig_Js <- ggplot(Js_sum, aes(x = as.Date(date), col = site)) + 
-  geom_errorbar(aes(ymin = Js_mean - Js_sd, 
-                    ymax = Js_mean + Js_sd),
+# Dataset of water potential measurement dates
+js_max <- Js_sum %>%
+  group_by(species) %>%
+  summarize(y_max = max(Js_mean + Js_sd))
+
+wp_times <- wp_sp_date %>%
+  select(species, Date) %>%
+  left_join(js_max)
+
+fig_Js <- ggplot() + 
+  geom_errorbar(data = Js_sum,
+                aes(x = as.Date(date),
+                    ymin = Js_mean - Js_sd, 
+                    ymax = Js_mean + Js_sd,
+                    col = site),
                 alpha = 0.3,
                 width = 0) +
-  geom_point(aes(y = Js_mean, shape = anatomy)) +
+  geom_point(data = Js_sum,
+             aes(x = as.Date(date), 
+                 y = Js_mean, 
+                 col = site,
+                 shape = anatomy)) +
+  geom_point(data = wp_times,
+             aes(x = as.Date(Date),
+                 y = y_max),
+             pch = 8,
+             size = 0.75) +
   facet_wrap(~species, scales = "free_y") +
   scale_y_continuous(expression(paste(J[s]," (g ", m^-2, " ", s^-1, ")"))) +
   scale_x_date(limits = range(as.Date(d$date)), 
