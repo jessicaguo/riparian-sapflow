@@ -93,7 +93,7 @@ ggplot(up, aes(x = day, y = Js, col = factor(ID))) +
 
 ### Combine and organize daily Js by individual and date
 d <- rbind(jor, res, tod, up) %>%
-  mutate(date = as.POSIXct("2004-01-01") + (d$day-1)*24*60*60,
+  mutate(date = as.POSIXct("2004-01-01") + (day-1)*24*60*60,
          species = factor(species, level = c("P. fremontii", 
                                              "T. ramosissima", 
                                              "E. angustifolia",
@@ -104,6 +104,11 @@ d <- rbind(jor, res, tod, up) %>%
                                              "B. occidentalis", 
                                              "P. angustifolia"))) %>%
   relocate(site, date)
+
+# Summarize number of daily observations
+d %>%
+  group_by(species) %>%
+  summarize(n = n())
 
 # Summarize to daily Js by species and date
 Js_sum <- d %>%
