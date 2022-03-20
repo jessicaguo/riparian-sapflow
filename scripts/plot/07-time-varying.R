@@ -4,6 +4,7 @@
 library(dplyr)
 library(ggplot2)
 library(ggthemes)
+library(ggh4x)
 
 # Load dataset
 load("clean-data/sapflow/Gc_daily.Rdata")
@@ -34,6 +35,18 @@ dr <- rbind(daterange[1,], daterange[1,], daterange[1,],
             daterange[4,], daterange[4,], daterange[4,])
 dr$species <- factor(levels(d$species), levels = levels(d$species))
 
+# Specify set ranges for y axes across facets
+scales <- list(
+  scale_y_continuous(limits = c(0.2, 0.6)),
+  scale_y_continuous(limits = c(0.2, 0.6)),
+  scale_y_continuous(limits = c(0.2, 0.6)),
+  scale_y_continuous(limits = c(0.25, 0.8)),
+  scale_y_continuous(limits = c(0.25, 0.8)),
+  scale_y_continuous(limits = c(0.3, 0.6)),
+  scale_y_continuous(limits = c(0.2, 1)),
+  scale_y_continuous(limits = c(0.2, 1)),
+  scale_y_continuous(limits = c(0.2, 1))
+)
 
 # Plot of hydry, S, or scaled sensitivity
 fig_hydry <- ggplot() +
@@ -46,7 +59,7 @@ fig_hydry <- ggplot() +
                 alpha = 0.3) +
   geom_point(data = hydry, aes(x = date, y = median, 
                                color = Site, shape = anatomy)) +
-  scale_y_continuous(bquote(italic(S))) +
+  ylab(bquote(italic(S))) +
   scale_x_date(limits = range(as.Date(d$date)), 
                date_breaks = "1 month",
                date_labels = "%b") +
@@ -57,6 +70,7 @@ fig_hydry <- ggplot() +
                                "Upper")) +
   scale_shape_manual(values = c(17, 19)) +
   facet_wrap(~species, scale = "free_y") +
+  facetted_pos_scales(y = scales) +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
@@ -73,6 +87,19 @@ jpeg(filename = "plots/Fig7_sens_byspecies.jpg", width = 7, height = 4,
 print(fig_hydry)
 dev.off()
 
+
+# Specify set ranges for y axes across facets
+scales <- list(
+  scale_y_continuous(limits = c(1, 8)),
+  scale_y_continuous(limits = c(1, 8)),
+  scale_y_continuous(limits = c(30, 45)),
+  scale_y_continuous(limits = c(1, 8)),
+  scale_y_continuous(limits = c(1, 8)),
+  scale_y_continuous(limits = c(1, 8)),
+  scale_y_continuous(limits = c(1, 8)),
+  scale_y_continuous(limits = c(1, 8)),
+  scale_y_continuous(limits = c(1, 8))
+)
 # Plot of Gref, or denominator of S
 fig_gref <- ggplot() +
   geom_rect(data = dr, aes(xmin = st, xmax = en, 
@@ -83,7 +110,7 @@ fig_gref <- ggplot() +
                 alpha = 0.3) +
   geom_point(data = Gref, aes(x = date, y = median, 
                               color = Site, shape = anatomy)) +
-  scale_y_continuous(expression(paste(G[ref], " (m ", s^-1, ")"))) +
+  ylab(expression(paste(G[ref], " (m ", s^-1, ")"))) +
   scale_x_date(limits = range(as.Date(d$date)), 
                date_breaks = "1 month",
                date_labels = "%b") +
@@ -94,6 +121,7 @@ fig_gref <- ggplot() +
                                "Upper")) +
   scale_shape_manual(values = c(17, 19)) +
   facet_wrap(~species, scale = "free_y") +
+  facetted_pos_scales(y = scales) +
   theme_bw(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
