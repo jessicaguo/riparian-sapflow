@@ -30,6 +30,16 @@ wp_times <- wp_sp_date %>%
   select(species, Date) %>%
   left_join(js_max)
 
+# Remove 3rd set of WP measurements for Jordan
+to_remove <- wp_times %>%
+  filter(species %in% c("P. fremontii",
+                        "T. ramosissima",
+                        "E. angustifolia"),
+         Date > as.POSIXct("2004-09-01"))
+
+wp_times_removed <- wp_times %>%
+  anti_join(to_remove)
+
 fig_Js <- ggplot() + 
   geom_errorbar(data = Js_sum,
                 aes(x = as.Date(date),
@@ -43,7 +53,7 @@ fig_Js <- ggplot() +
                  y = Js_mean, 
                  col = site,
                  shape = anatomy)) +
-  geom_point(data = wp_times,
+  geom_point(data = wp_times_removed,
              aes(x = as.Date(Date),
                  y = y_max),
              pch = 8,
