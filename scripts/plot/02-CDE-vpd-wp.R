@@ -67,9 +67,20 @@ dev.off()
 
 # Plot WP by time and species
 
-# Load data
+# Load wp data
 load("clean-data/waterpotential/wp_sp_date.Rdata")
 
+# Load Gc data for date ranges
+load("clean-data/sapflow/Gc_daily.Rdata")
+
+daterange <- d %>%
+  group_by(site) %>%
+  summarize(st = min(date),
+            en = max(date)) %>%
+  left_join(wp_sp_date[c("species", "Site")], by = c("site" = "Site")) %>%
+  distinct() %>%
+  rename(Site = site) 
+  
 # Find unique sites by species
 site_sp <- d %>%
   group_by(species) %>%
@@ -86,22 +97,47 @@ wp_sp_date %>%
   group_by(Site) %>%
   summarize(date = unique(Date))
 
+# Remove 3rd set of WP measurements for Jordan
+to_remove <- wp_sp_date %>%
+  filter(species %in% c("P. fremontii",
+                        "T. ramosissima",
+                        "E. angustifolia"),
+         Date > as.POSIXct("2004-09-01"))
+
+wp_sp_date_removed <- wp_sp_date %>%
+  anti_join(to_remove)
+
+
 
 dodge <- position_dodge(width = 0.75)
-fig_wp <- ggplot(wp_sp_date, aes(x = Date)) +
-  geom_errorbar(aes(y = PD_mean, 
+fig_wp <- ggplot() +
+  geom_rect(data = daterange, 
+            aes(xmin = st, xmax = en,
+                ymin = -Inf, ymax = Inf), alpha = 0.1) +
+  geom_errorbar(data = wp_sp_date_removed,
+                aes(x = Date,
+                    y = PD_mean, 
                     ymin = PD_mean - PD_sd,
-                    ymax = PD_mean + PD_sd, color = Site), 
+                    ymax = PD_mean + PD_sd, 
+                    color = Site), 
                 width = 0, position = dodge, alpha = 0.5) +
-  geom_point(aes(y = PD_mean, shape = anatomy, color = Site), 
+  geom_point(data = wp_sp_date_removed,
+             aes(x = Date,
+                 y = PD_mean, 
+                 shape = anatomy, 
+                 color = Site), 
              position = dodge,
              alpha = 0.4,
              size = 1.25) +
-  geom_errorbar(aes(y = MD_mean, 
+  geom_errorbar(data = wp_sp_date_removed,
+                aes(x = Date,
+                    y = MD_mean, 
                     ymin = MD_mean - MD_sd,
                     ymax = MD_mean + MD_sd, color = Site), 
                 width = 0, position = dodge, alpha = 0.5) +
-  geom_point(aes(y = MD_mean, shape = anatomy, color = Site), 
+  geom_point(data = wp_sp_date_removed,
+             aes(x = Date,
+                 y = MD_mean, shape = anatomy, color = Site), 
              position = dodge,
              alpha = 1.5,
              size = 1.25) +
