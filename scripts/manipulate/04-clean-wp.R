@@ -38,7 +38,8 @@ se <- function(x) {sd(x, na.rm = TRUE)/sqrt(sum(!is.na(x)))}
 
 wp_sp_date <- wp %>%
   group_by(species, Date) %>%
-  summarize(n = n(),
+  summarize(Site = unique(Site),
+            n = n(),
             PD_mean = mean(PD),
             MD_mean = mean(MD),
             PD_sd = sd(PD),
@@ -51,11 +52,23 @@ wp_sp_date <- wp %>%
 
 save(wp_sp_date, file = "clean-data/waterpotential/wp_sp_date.Rdata")
 
+# Remove 3rd set of WP measurements for Jordan
+to_remove <- wp %>%
+  filter(species %in% c("P. fremontii",
+                        "T. ramosissima",
+                        "E. angustifolia"),
+         Date > as.POSIXct("2004-09-01"))
+
+wp_removed <- wp %>%
+  anti_join(to_remove)
+
+
 # Summarize by species only
 # Mean minimum WP of each species
 # First minimum MD and PD of each individual
 # Then population mean, sd, and se
-wp_sp <- wp %>%
+# Disregard the last set of WP measurements at Jordan, occurred during instrument failure
+wp_sp <- wp_removed %>%
   mutate(ind = paste0(tree, "_", id)) %>%
   group_by(ind) %>%
   summarize(MD_min = min(MD),
