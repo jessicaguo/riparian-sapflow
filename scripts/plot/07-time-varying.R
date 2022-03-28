@@ -110,7 +110,7 @@ fig_gref <- ggplot() +
                 alpha = 0.3) +
   geom_point(data = Gref, aes(x = date, y = median, 
                               color = Site, shape = anatomy)) +
-  ylab(expression(paste(G[ref], " (m ", s^-1, ")"))) +
+  ylab(expression(paste(G[ref], " (", m^3, " ", m^-2, " ", s^-1, ")"))) +
   scale_x_date(limits = range(as.Date(d$date)), 
                date_breaks = "1 month",
                date_labels = "%b") +

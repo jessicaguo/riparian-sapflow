@@ -20,7 +20,7 @@ fig_Gc_logD <- ggplot() +
                            color = day, shape = anatomy), alpha = 0.2) +
   scale_x_continuous(expression(paste("log(", D[max], ")")),
                      breaks = 0:2) +
-  scale_y_continuous(expression(paste(G[c], " (m ", s^-1, ")"))) +
+  scale_y_continuous(expression(paste(G[c], " (", m^3, " ", m^-2, " ", s^-1, ")"))) +
   scale_color_gradientn(name = "Day of year", 
                         colors = c("goldenrod", "forestgreen"), 
                         trans = "reverse") +
@@ -48,7 +48,7 @@ fig_Gc_logD_inds_A <- d %>%
              shape = 19) +
   scale_x_continuous(expression(paste("log(", D[max], ")")),
                      breaks = seq(0.5, 2, by = 0.5)) +
-  scale_y_continuous(expression(paste(G[c], " (m ", s^-1, ")"))) +
+  scale_y_continuous(expression(paste(G[c], " (", m^3, " ", m^-2, " ", s^-1, ")"))) +
   scale_color_gradientn(name = "CDE", 
                         colors = c("purple", "yellowgreen"), 
                         trans = "reverse") +
@@ -70,7 +70,7 @@ fig_Gc_logD_inds_B <- d %>%
              shape = 17) +
   scale_x_continuous(expression(paste("log(", D[max], ")")),
                      breaks = seq(0.5, 2, by = 0.5)) +
-  scale_y_continuous(expression(paste(G[c], " (m ", s^-1, ")"))) +
+  scale_y_continuous(expression(paste(G[c], " (", m^3, " ", m^-2, " ", s^-1, ")"))) +
   scale_color_gradientn(name = "CDE", 
                         colors = c("purple", "yellowgreen"), 
                         trans = "reverse") +
