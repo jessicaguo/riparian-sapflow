@@ -1,5 +1,5 @@
 # riparian-sapflow
-Temporal variation in stomatal sensitivity to vapor pressure deficit in western riparian forests
+## Temporal variation in stomatal sensitivity to vapor pressure deficit in western riparian forests
 
 Data and code associated with Guo, Bush, and Hultine (2022) in Functional Ecology
 
