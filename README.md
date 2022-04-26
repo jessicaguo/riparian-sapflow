@@ -38,4 +38,4 @@ Note that the data contain the site name 'Todd's', which was later changed to 'P
   - `output/` contains the preliminary model figures and calculated posterior output
 
 #### Plot folder
-- `plots/` contains the .jpg images at 600 dpi produced by `scripts/plot/`. All except 'Fig6_wp_muBeta.jpg' made it into the final manuscript and supplement
+- `plots/` contains the .jpg images at 600 dpi produced by `scripts/plot/`. All except 'Fig6_wp_muBeta.jpg' were included in the final manuscript and supplement
