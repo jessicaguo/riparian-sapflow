@@ -2,12 +2,6 @@
 *.Rproj
 .Rhistory
 
-# folders to ignore, for now
-model/coda/
-model/diag/
-model/inits/
-model/output/
-
 # manuscript folder, always ignore
 ms/
 *.docx
