@@ -3,9 +3,6 @@
 .Rhistory
 
 # folders to ignore, for now
-raw-data/
-clean-data/
-plots/
 model/coda/
 model/diag/
 model/inits/
