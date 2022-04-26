@@ -1,5 +1,6 @@
 # riparian-sapflow
 ## Temporal variation in stomatal sensitivity to vapor pressure deficit in western riparian forests
+Authors: Jessica S. Guo, Susan E. Bush, Kevin R. Hultine
 
 Data and code associated with Guo, Bush, and Hultine (2022) in Functional Ecology
 
