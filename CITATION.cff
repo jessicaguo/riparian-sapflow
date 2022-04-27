@@ -1,1 +1,35 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
 
+cff-version: 1.2.0
+title: >-
+  Temporal variation in stomatal sensitivity to vapor
+  pressure deficit in western riparian forests
+message: Please cite this dataset using these metadata.
+type: dataset
+authors:
+  - given-names: Jessica
+    name-particle: S
+    family-names: Guo
+    email: jessicaguo@email.arizona.edu
+    affiliation: University of Arizona
+    orcid: 'https://orcid.org/0000-0002-9566-9182'
+  - given-names: Susan
+    name-particle: E
+    family-names: Bush
+    email: susanelainebush@gmail.com
+    affiliation: University of Utah
+  - given-names: Kevin
+    name-particle: R
+    family-names: Hultine
+    email: khultine@dbg.org
+    affiliation: Desert Botanical Garden
+    orcid: 'https://orcid.org/0000-0001-9747-6037'
+  - {}
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.6496555
+    description: >-
+      The versioned DOI for version 1.0.0 of the
+      work. 
+repository-code: 'https://github.com/jessicaguo/riparian-sapflow'
