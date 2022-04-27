@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/485639117.svg)](https://zenodo.org/badge/latestdoi/485639117)
+
 # riparian-sapflow
 ## Temporal variation in stomatal sensitivity to vapor pressure deficit in western riparian forests
 Authors: Jessica S. Guo, Susan E. Bush, Kevin R. Hultine
